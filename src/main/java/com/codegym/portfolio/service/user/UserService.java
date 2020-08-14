@@ -1,6 +1,7 @@
 package com.codegym.portfolio.service.user;
 
 import com.codegym.portfolio.model.auth.User;
+import com.codegym.portfolio.model.auth.UserPrinciple;
 import com.codegym.portfolio.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +37,10 @@ public class UserService implements IUserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        User user = userRepository.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return UserPrinciple.build(user);
     }
 }
