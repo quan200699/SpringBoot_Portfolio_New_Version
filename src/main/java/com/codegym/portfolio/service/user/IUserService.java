@@ -5,4 +5,5 @@ import com.codegym.portfolio.service.IGeneralService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface IUserService extends IGeneralService<User>, UserDetailsService {
+    User findByEmail(String email);
 }
