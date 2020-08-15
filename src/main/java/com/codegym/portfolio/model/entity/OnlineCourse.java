@@ -15,4 +15,7 @@ public class OnlineCourse {
     private String name;
 
     private boolean complete;
+
+    @ManyToOne
+    private Student student;
 }
