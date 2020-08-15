@@ -12,4 +12,7 @@ public class Classes {
     private Long id;
 
     private String name;
+
+    @ManyToOne
+    private Module module;
 }
