@@ -15,4 +15,7 @@ public class Classes {
 
     @ManyToOne
     private Module module;
+
+    @ManyToOne
+    private Lecture lecture;
 }
