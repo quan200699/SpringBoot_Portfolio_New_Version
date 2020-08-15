@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name="evaluations")
+@Table(name = "evaluations")
 public class Evaluations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,9 @@ public class Evaluations {
     private String evaluation;
 
     private Date createDate;
+
+    @OneToOne
+    private Description description;
 
     @ManyToOne
     private Template template;
