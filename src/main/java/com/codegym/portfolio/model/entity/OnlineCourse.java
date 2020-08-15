@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "online-courses")
 public class OnlineCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
