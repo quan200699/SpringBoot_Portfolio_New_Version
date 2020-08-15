@@ -3,9 +3,11 @@ package com.codegym.portfolio.service.program;
 import com.codegym.portfolio.model.entity.Program;
 import com.codegym.portfolio.repository.IProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ProgramService implements IProgramService {
     @Autowired
     private IProgramRepository programRepository;
