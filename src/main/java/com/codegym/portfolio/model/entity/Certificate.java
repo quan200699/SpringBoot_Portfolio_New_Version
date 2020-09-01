@@ -6,10 +6,16 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class OnlineCourse {
+public class Certificate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @ManyToOne
+    private Student student;
+
+    @ManyToOne
+    private OnlineCourse onlineCourse;
+
+    private boolean complete;
 }
