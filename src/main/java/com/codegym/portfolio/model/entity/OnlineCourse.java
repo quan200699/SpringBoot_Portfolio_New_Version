@@ -3,6 +3,7 @@ package com.codegym.portfolio.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -15,6 +16,6 @@ public class OnlineCourse {
 
     private boolean complete;
 
-    @ManyToOne
-    private Student student;
+    @ManyToMany
+    private Set<Student> student;
 }
