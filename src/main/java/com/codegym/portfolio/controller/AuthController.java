@@ -5,6 +5,7 @@ import com.codegym.portfolio.model.auth.User;
 import com.codegym.portfolio.service.JwtService;
 import com.codegym.portfolio.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,5 +40,10 @@ public class AuthController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User currentUser = userService.findByEmail(user.getEmail());
         return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), userDetails.getAuthorities()));
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<User> register(@RequestBody User user) {
+        return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 }
