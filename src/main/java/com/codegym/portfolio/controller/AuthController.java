@@ -1,7 +1,9 @@
 package com.codegym.portfolio.controller;
 
 import com.codegym.portfolio.model.auth.JwtResponse;
+import com.codegym.portfolio.model.auth.Role;
 import com.codegym.portfolio.model.auth.User;
+import com.codegym.portfolio.model.enum_file.RoleName;
 import com.codegym.portfolio.service.JwtService;
 import com.codegym.portfolio.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
@@ -28,6 +34,9 @@ public class AuthController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
@@ -44,6 +53,15 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<User> register(@RequestBody User user) {
+        if (user.getRoles() == null) {
+            Role role = new Role();
+            role.setId(2L);
+            role.setName(RoleName.COACH.toString());
+            Set<Role> roles = new HashSet<>();
+            roles.add(role);
+            user.setRoles(roles);
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
     }
 }
