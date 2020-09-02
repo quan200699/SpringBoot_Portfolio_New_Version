@@ -14,7 +14,7 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<User> getUserByName(@RequestParam String email) {
         User user = userService.findByEmail(email);
         if (user == null) {
