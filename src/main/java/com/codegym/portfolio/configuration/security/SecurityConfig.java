@@ -3,10 +3,6 @@ package com.codegym.portfolio.configuration.security;
 import com.codegym.portfolio.configuration.custom.CustomAccessDeniedHandler;
 import com.codegym.portfolio.configuration.custom.RestAuthenticationEntryPoint;
 import com.codegym.portfolio.configuration.filter.JwtAuthenticationFilter;
-import com.codegym.portfolio.model.auth.Role;
-import com.codegym.portfolio.model.auth.User;
-import com.codegym.portfolio.model.enum_file.RoleName;
-import com.codegym.portfolio.service.role.RoleService;
 import com.codegym.portfolio.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,22 +19,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private IUserService userService;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -64,31 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
-    }
-
-    @PostConstruct
-    public void init() {
-        List<User> users = (List<User>) userService.findAll();
-        List<Role> roleList = (List<Role>) roleService.findAll();
-        if (roleList.isEmpty()) {
-            Role roleAdmin = new Role();
-            roleAdmin.setId(1L);
-            roleAdmin.setName(RoleName.ADMIN.toString());
-            roleService.save(roleAdmin);
-            Role roleCoach = new Role();
-            roleCoach.setId(2L);
-            roleCoach.setName(RoleName.COACH.toString());
-            roleService.save(roleCoach);
-        }
-        if (users.isEmpty()) {
-            User admin = new User();
-            Set<Role> roles = new HashSet<>();
-            roles.add(new Role(1L, RoleName.ADMIN.toString()));
-            admin.setEmail("admin@gmail.com");
-            admin.setPassword(passwordEncoder.encode("123456"));
-            admin.setRoles(roles);
-            userService.save(admin);
-        }
     }
 
     @Autowired
