@@ -2,9 +2,13 @@ package com.codegym.portfolio.configuration.custom;
 
 import com.codegym.portfolio.model.auth.Role;
 import com.codegym.portfolio.model.auth.User;
+import com.codegym.portfolio.model.entity.Module;
 import com.codegym.portfolio.model.entity.OnlineCourse;
+import com.codegym.portfolio.model.entity.Program;
 import com.codegym.portfolio.model.enum_file.RoleName;
+import com.codegym.portfolio.service.module.ModuleService;
 import com.codegym.portfolio.service.online_course.OnlineCourseService;
+import com.codegym.portfolio.service.program.ProgramService;
 import com.codegym.portfolio.service.role.RoleService;
 import com.codegym.portfolio.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,12 @@ public class InitData {
     private RoleService roleService;
 
     @Autowired
+    private ProgramService programService;
+
+    @Autowired
+    private ModuleService moduleService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostConstruct
@@ -35,6 +45,8 @@ public class InitData {
         List<User> users = (List<User>) userService.findAll();
         List<Role> roleList = (List<Role>) roleService.findAll();
         List<OnlineCourse> onlineCourses = (List<OnlineCourse>) onlineCourseService.findAll();
+        List<Program> programs = (List<Program>) programService.findAll();
+        List<Module> modules = (List<Module>) moduleService.findAll();
         if (roleList.isEmpty()) {
             createDefaultRole();
         }
@@ -44,6 +56,19 @@ public class InitData {
         if (onlineCourses.isEmpty()) {
             createDefaultOnlineCourse();
         }
+        if (programs.isEmpty()) {
+            createDefaultProgram();
+        }
+    }
+
+    private void createDefaultProgram() {
+        Program program = new Program();
+        program.setId(1L);
+        program.setName("Bootcamp Java 2020");
+        programService.save(program);
+        program.setId(2L);
+        program.setName("Bootcamp PHP 2020");
+        programService.save(program);
     }
 
     private void createDefaultOnlineCourse() {
