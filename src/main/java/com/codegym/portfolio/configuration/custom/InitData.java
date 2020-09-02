@@ -2,6 +2,7 @@ package com.codegym.portfolio.configuration.custom;
 
 import com.codegym.portfolio.model.auth.Role;
 import com.codegym.portfolio.model.auth.User;
+import com.codegym.portfolio.model.entity.OnlineCourse;
 import com.codegym.portfolio.model.enum_file.RoleName;
 import com.codegym.portfolio.service.online_course.OnlineCourseService;
 import com.codegym.portfolio.service.role.RoleService;
@@ -33,12 +34,29 @@ public class InitData {
     public void init() {
         List<User> users = (List<User>) userService.findAll();
         List<Role> roleList = (List<Role>) roleService.findAll();
+        List<OnlineCourse> onlineCourses = (List<OnlineCourse>) onlineCourseService.findAll();
         if (roleList.isEmpty()) {
             createDefaultRole();
         }
         if (users.isEmpty()) {
             createDefaultUser();
         }
+        if (onlineCourses.isEmpty()) {
+            createDefaultOnlineCourse();
+        }
+    }
+
+    private void createDefaultOnlineCourse() {
+        OnlineCourse onlineCourse = new OnlineCourse();
+        onlineCourse.setId(1L);
+        onlineCourse.setName("Học cách học");
+        onlineCourseService.save(onlineCourse);
+        onlineCourse.setId(2L);
+        onlineCourse.setName("Hoàn thành mọi việc với Kanban");
+        onlineCourseService.save(onlineCourse);
+        onlineCourse.setId(3L);
+        onlineCourse.setName("Scrum Essence");
+        onlineCourseService.save(onlineCourse);
     }
 
     private void createDefaultUser() {
