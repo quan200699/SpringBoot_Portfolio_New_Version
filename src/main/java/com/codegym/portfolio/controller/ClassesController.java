@@ -2,7 +2,9 @@ package com.codegym.portfolio.controller;
 
 
 import com.codegym.portfolio.model.entity.Classes;
+import com.codegym.portfolio.model.entity.Student;
 import com.codegym.portfolio.service.classes.IClassesService;
+import com.codegym.portfolio.service.student.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ import java.util.Optional;
 public class ClassesController {
     @Autowired
     private IClassesService classesService;
+
+    @Autowired
+    private IStudentService studentService;
 
     @GetMapping
     public ResponseEntity<Iterable<Classes>> getAllClasses() {
@@ -49,6 +54,15 @@ public class ClassesController {
         return classesOptional.map(classes -> {
             classesService.remove(id);
             return new ResponseEntity<>(classes, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/{id}/students")
+    public ResponseEntity<Iterable<Student>> getAllStudentByClasses(@PathVariable Long id) {
+        Optional<Classes> classesOptional = classesService.findById(id);
+        return classesOptional.map(classes -> {
+            Iterable<Student> students = studentService.findAllByClasses(classes);
+            return new ResponseEntity<>(students, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
