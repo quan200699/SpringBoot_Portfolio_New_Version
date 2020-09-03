@@ -1,6 +1,7 @@
 package com.codegym.portfolio.service.product;
 
 import com.codegym.portfolio.model.entity.Product;
+import com.codegym.portfolio.model.entity.Student;
 import com.codegym.portfolio.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,10 @@ public class ProductService implements IProductService {
     @Override
     public void remove(Long id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Product> findAllByStudent(Student student) {
+        return productRepository.findAllByStudent(student);
     }
 }

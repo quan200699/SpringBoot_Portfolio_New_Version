@@ -1,6 +1,8 @@
 package com.codegym.portfolio.controller;
 
+import com.codegym.portfolio.model.entity.Product;
 import com.codegym.portfolio.model.entity.Student;
+import com.codegym.portfolio.service.product.IProductService;
 import com.codegym.portfolio.service.student.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ import java.util.Optional;
 public class StudentController {
     @Autowired
     private IStudentService studentService;
+
+    @Autowired
+    private IProductService productService;
 
     @GetMapping
     public ResponseEntity<Iterable<Student>> getAllStudent() {
@@ -45,9 +50,18 @@ public class StudentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
         Optional<Student> studentOptional = studentService.findById(id);
-        return studentOptional.map(classes -> {
+        return studentOptional.map(student -> {
             studentService.remove(id);
-            return new ResponseEntity<>(classes, HttpStatus.OK);
+            return new ResponseEntity<>(student, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/{id}/products")
+    public ResponseEntity<Iterable<Product>> getAllProductByStudent(@PathVariable Long id) {
+        Optional<Student> studentOptional = studentService.findById(id);
+        return studentOptional.map(student -> {
+            Iterable<Product> products = productService.findAllByStudent(student);
+            return new ResponseEntity<>(products, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
