@@ -15,7 +15,7 @@ public class ClassesService implements IClassesService{
 
     @Override
     public Iterable<Classes> findAll() {
-        return classesRepository.findAll();
+        return classesRepository.findAllAndSort();
     }
 
     @Override
