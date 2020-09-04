@@ -52,4 +52,12 @@ public class CategoryController {
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/name")
+    public ResponseEntity<Category> findByName(@RequestParam String name) {
+        Category category = categoryService.findByName(name);
+        if (category == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(category, HttpStatus.OK);
+    }
 }

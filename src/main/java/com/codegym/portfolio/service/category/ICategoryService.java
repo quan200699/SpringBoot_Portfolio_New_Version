@@ -4,4 +4,5 @@ import com.codegym.portfolio.model.entity.Category;
 import com.codegym.portfolio.service.IGeneralService;
 
 public interface ICategoryService extends IGeneralService<Category> {
+    Category findByName(String name);
 }
