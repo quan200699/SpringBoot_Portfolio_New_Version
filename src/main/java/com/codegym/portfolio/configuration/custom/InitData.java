@@ -5,11 +5,13 @@ import com.codegym.portfolio.model.auth.User;
 import com.codegym.portfolio.model.entity.Module;
 import com.codegym.portfolio.model.entity.OnlineCourse;
 import com.codegym.portfolio.model.entity.Program;
+import com.codegym.portfolio.model.entity.Template;
 import com.codegym.portfolio.model.enum_file.RoleName;
 import com.codegym.portfolio.service.module.ModuleService;
 import com.codegym.portfolio.service.online_course.OnlineCourseService;
 import com.codegym.portfolio.service.program.ProgramService;
 import com.codegym.portfolio.service.role.RoleService;
+import com.codegym.portfolio.service.template.ITemplateService;
 import com.codegym.portfolio.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +42,9 @@ public class InitData {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ITemplateService templateService;
+
     @PostConstruct
     public void init() {
         List<User> users = (List<User>) userService.findAll();
@@ -47,6 +52,7 @@ public class InitData {
         List<OnlineCourse> onlineCourses = (List<OnlineCourse>) onlineCourseService.findAll();
         List<Program> programs = (List<Program>) programService.findAll();
         List<Module> modules = (List<Module>) moduleService.findAll();
+        List<Template> templates = (List<Template>) templateService.findAll();
         if (roleList.isEmpty()) {
             createDefaultRole();
         }
@@ -61,6 +67,9 @@ public class InitData {
         }
         if (modules.isEmpty()) {
             createDefaultModule();
+        }
+        if (templates.isEmpty()) {
+            createDefaultTemplate();
         }
     }
 
@@ -164,4 +173,14 @@ public class InitData {
         roleService.save(roleCoach);
     }
 
+    private void createDefaultTemplate() {
+        Template template = new Template();
+        template.setId(1L);
+        template.setName("ĐÁNH GIÁ NĂNG LỰC JAVA");
+        templateService.save(template);
+        template = new Template();
+        template.setId(2L);
+        template.setName("ĐÁNH GIÁ NĂNG LỰC PHP");
+        templateService.save(template);
+    }
 }
