@@ -18,7 +18,4 @@ public class Student {
 
     @ManyToOne
     private Classes classes;
-
-    @ManyToOne
-    private Template template;
 }

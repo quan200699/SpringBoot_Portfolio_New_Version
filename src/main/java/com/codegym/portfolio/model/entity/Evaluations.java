@@ -26,4 +26,7 @@ public class Evaluations {
 
     @ManyToOne
     private Template template;
+
+    @ManyToOne
+    private Student student;
 }
