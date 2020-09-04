@@ -51,4 +51,12 @@ public class OutcomeController {
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/name")
+    public ResponseEntity<Outcome> findOutcomeByName(@RequestParam String title) {
+        Outcome outcome = outcomeService.findByTitle(title);
+        if (outcome == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(outcome, HttpStatus.OK);
+    }
 }
