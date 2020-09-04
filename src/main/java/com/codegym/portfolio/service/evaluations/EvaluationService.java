@@ -1,6 +1,7 @@
 package com.codegym.portfolio.service.evaluations;
 
 import com.codegym.portfolio.model.entity.Evaluations;
+import com.codegym.portfolio.model.entity.Student;
 import com.codegym.portfolio.repository.IEvaluationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,10 @@ public class EvaluationService implements IEvaluationService {
     @Override
     public void remove(Long id) {
         evaluationRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Evaluations> findAllByStudent(Student student) {
+        return evaluationRepository.findAllByStudent(student);
     }
 }

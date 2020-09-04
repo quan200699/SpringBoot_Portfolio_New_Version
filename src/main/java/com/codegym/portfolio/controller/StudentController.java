@@ -1,10 +1,8 @@
 package com.codegym.portfolio.controller;
 
-import com.codegym.portfolio.model.entity.Certificate;
-import com.codegym.portfolio.model.entity.OnlineCourse;
-import com.codegym.portfolio.model.entity.Product;
-import com.codegym.portfolio.model.entity.Student;
+import com.codegym.portfolio.model.entity.*;
 import com.codegym.portfolio.service.certificate.ICertificateService;
+import com.codegym.portfolio.service.evaluations.IEvaluationService;
 import com.codegym.portfolio.service.online_course.IOnlineCourseService;
 import com.codegym.portfolio.service.product.IProductService;
 import com.codegym.portfolio.service.student.IStudentService;
@@ -30,6 +28,9 @@ public class StudentController {
 
     @Autowired
     private ICertificateService certificateService;
+
+    @Autowired
+    private IEvaluationService evaluationService;
 
     @GetMapping
     public ResponseEntity<Iterable<Student>> getAllStudent() {
@@ -81,6 +82,15 @@ public class StudentController {
         return studentOptional.map(student -> {
             Optional<OnlineCourse> onlineCourseOptional = onlineCourseService.findById(onlineCourseId);
             return onlineCourseOptional.map(onlineCourse -> new ResponseEntity<>(certificateService.findByStudentAndOnlineCourse(student, onlineCourse), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/{id}/evaluations")
+    public ResponseEntity<Iterable<Evaluations>> getAllEvaluationsByStudent(@PathVariable Long id) {
+        Optional<Student> studentOptional = studentService.findById(id);
+        return studentOptional.map(student -> {
+            Iterable<Evaluations> evaluations = evaluationService.findAllByStudent(student);
+            return new ResponseEntity<>(evaluations, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
