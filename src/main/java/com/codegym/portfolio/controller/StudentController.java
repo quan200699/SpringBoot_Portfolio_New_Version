@@ -79,7 +79,7 @@ public class StudentController {
     public ResponseEntity<Certificate> getCertificateByStudentAndOnlineCourse(@PathVariable Long id, @PathVariable Long onlineCourseId) {
         Optional<Student> studentOptional = studentService.findById(id);
         return studentOptional.map(student -> {
-            Optional<OnlineCourse> onlineCourseOptional = onlineCourseService.findById(id);
+            Optional<OnlineCourse> onlineCourseOptional = onlineCourseService.findById(onlineCourseId);
             return onlineCourseOptional.map(onlineCourse -> new ResponseEntity<>(certificateService.findByStudentAndOnlineCourse(student, onlineCourse), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
