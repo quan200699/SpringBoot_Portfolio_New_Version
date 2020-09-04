@@ -1,7 +1,9 @@
 package com.codegym.portfolio.controller;
 
 import com.codegym.portfolio.model.entity.Certificate;
+import com.codegym.portfolio.model.entity.Student;
 import com.codegym.portfolio.service.certificate.ICertificateService;
+import com.codegym.portfolio.service.student.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,9 @@ import java.util.Optional;
 public class CertificateController {
     @Autowired
     private ICertificateService certificateService;
+
+    @Autowired
+    private IStudentService studentService;
 
     @GetMapping
     public ResponseEntity<Iterable<Certificate>> getAllCertificate() {
@@ -49,5 +54,12 @@ public class CertificateController {
             certificateService.remove(id);
             return new ResponseEntity<>(certificate, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<Integer> countCompleteCertificate(@RequestParam Long studentId) {
+        Optional<Student> studentOptional = studentService.findById(studentId);
+        return studentOptional.map(student -> new ResponseEntity<>(certificateService.countCompleteCertificate(studentId), HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

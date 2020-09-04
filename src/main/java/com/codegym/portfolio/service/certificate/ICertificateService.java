@@ -7,4 +7,6 @@ import com.codegym.portfolio.service.IGeneralService;
 
 public interface ICertificateService extends IGeneralService<Certificate> {
     Certificate findByStudentAndOnlineCourse(Student student, OnlineCourse onlineCourse);
+
+    Integer countCompleteCertificate(Long id);
 }

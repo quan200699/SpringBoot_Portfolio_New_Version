@@ -38,4 +38,9 @@ public class CertificateService implements ICertificateService {
     public Certificate findByStudentAndOnlineCourse(Student student, OnlineCourse onlineCourse) {
         return certificateRepository.findByStudentAndOnlineCourse(student, onlineCourse);
     }
+
+    @Override
+    public Integer countCompleteCertificate(Long id) {
+        return certificateRepository.countCompleteCertificate(id);
+    }
 }
