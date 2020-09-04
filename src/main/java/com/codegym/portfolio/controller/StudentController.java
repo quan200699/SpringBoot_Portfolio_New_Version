@@ -1,7 +1,11 @@
 package com.codegym.portfolio.controller;
 
+import com.codegym.portfolio.model.entity.Certificate;
+import com.codegym.portfolio.model.entity.OnlineCourse;
 import com.codegym.portfolio.model.entity.Product;
 import com.codegym.portfolio.model.entity.Student;
+import com.codegym.portfolio.service.certificate.ICertificateService;
+import com.codegym.portfolio.service.online_course.IOnlineCourseService;
 import com.codegym.portfolio.service.product.IProductService;
 import com.codegym.portfolio.service.student.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,12 @@ public class StudentController {
 
     @Autowired
     private IProductService productService;
+
+    @Autowired
+    private IOnlineCourseService onlineCourseService;
+
+    @Autowired
+    private ICertificateService certificateService;
 
     @GetMapping
     public ResponseEntity<Iterable<Student>> getAllStudent() {
@@ -65,4 +75,12 @@ public class StudentController {
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/{id}/online-courses/{onlineCourseId}/certificates")
+    public ResponseEntity<Certificate> getCertificateByStudentAndOnlineCourse(@PathVariable Long id, @PathVariable Long onlineCourseId) {
+        Optional<Student> studentOptional = studentService.findById(id);
+        return studentOptional.map(student -> {
+            Optional<OnlineCourse> onlineCourseOptional = onlineCourseService.findById(id);
+            return onlineCourseOptional.map(onlineCourse -> new ResponseEntity<>(certificateService.findByStudentAndOnlineCourse(student, onlineCourse), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }
