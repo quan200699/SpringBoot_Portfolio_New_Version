@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IEvaluationDetailRepository extends JpaRepository<EvaluationDetail, Long> {
     EvaluationDetail findByEvaluationsAndSkill(Evaluations evaluations, Skill skill);
+
+    Iterable<EvaluationDetail> findAllByEvaluations(Evaluations evaluations);
 }

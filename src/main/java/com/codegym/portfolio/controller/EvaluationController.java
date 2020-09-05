@@ -70,4 +70,13 @@ public class EvaluationController {
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @GetMapping("/{id}/evaluation-details")
+    public ResponseEntity<Iterable<EvaluationDetail>> getAllEvaluationDetailByEvaluation(@PathVariable Long id) {
+        Optional<Evaluations> evaluationsOptional = evaluationService.findById(id);
+        return evaluationsOptional.map(evaluations -> {
+            Iterable<EvaluationDetail> evaluationDetails = evaluationDetailService.findAllByEvaluations(evaluations);
+            return new ResponseEntity<>(evaluationDetails, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

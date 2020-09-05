@@ -7,4 +7,6 @@ import com.codegym.portfolio.service.IGeneralService;
 
 public interface IEvaluationDetailService extends IGeneralService<EvaluationDetail> {
     EvaluationDetail findByEvaluationsAndSkill(Evaluations evaluations, Skill skill);
+
+    Iterable<EvaluationDetail> findAllByEvaluations(Evaluations evaluations);
 }

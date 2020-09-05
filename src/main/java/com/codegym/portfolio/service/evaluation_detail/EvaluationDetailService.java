@@ -38,4 +38,9 @@ public class EvaluationDetailService implements IEvaluationDetailService {
     public EvaluationDetail findByEvaluationsAndSkill(Evaluations evaluations, Skill skill) {
         return evaluationDetailRepository.findByEvaluationsAndSkill(evaluations, skill);
     }
+
+    @Override
+    public Iterable<EvaluationDetail> findAllByEvaluations(Evaluations evaluations) {
+        return evaluationDetailRepository.findAllByEvaluations(evaluations);
+    }
 }
