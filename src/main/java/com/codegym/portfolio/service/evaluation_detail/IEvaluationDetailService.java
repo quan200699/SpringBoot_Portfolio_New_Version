@@ -6,5 +6,5 @@ import com.codegym.portfolio.model.entity.Skill;
 import com.codegym.portfolio.service.IGeneralService;
 
 public interface IEvaluationDetailService extends IGeneralService<EvaluationDetail> {
-    Iterable<EvaluationDetail> findByEvaluationsAndSkill(Evaluations evaluations, Skill skill);
+    EvaluationDetail findByEvaluationsAndSkill(Evaluations evaluations, Skill skill);
 }

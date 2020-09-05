@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IEvaluationDetailRepository extends JpaRepository<EvaluationDetail, Long> {
-    Iterable<EvaluationDetail> findByEvaluationsAndSkill(Evaluations evaluations, Skill skill);
+    EvaluationDetail findByEvaluationsAndSkill(Evaluations evaluations, Skill skill);
 }

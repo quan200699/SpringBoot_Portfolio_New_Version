@@ -62,7 +62,7 @@ public class EvaluationController {
     }
 
     @GetMapping("/{id}/skills/{skillId}/evaluation-details")
-    public ResponseEntity<Iterable<EvaluationDetail>> getAllEvaluationDetailByEvaluationAndSkill(@PathVariable Long id, @PathVariable Long skillId) {
+    public ResponseEntity<EvaluationDetail> getAllEvaluationDetailByEvaluationAndSkill(@PathVariable Long id, @PathVariable Long skillId) {
         Optional<Evaluations> evaluationsOptional = evaluationService.findById(id);
         return evaluationsOptional.map(evaluations -> {
             Optional<Skill> skillOptional = skillService.findById(skillId);
