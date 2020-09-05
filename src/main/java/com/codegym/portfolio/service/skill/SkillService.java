@@ -1,5 +1,6 @@
 package com.codegym.portfolio.service.skill;
 
+import com.codegym.portfolio.model.entity.Category;
 import com.codegym.portfolio.model.entity.Skill;
 import com.codegym.portfolio.repository.ISkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class SkillService implements ISkillService {
     @Override
     public void remove(Long id) {
         skillRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Skill> findAllByCategory(Category category) {
+        return skillRepository.findAllByCategory(category);
     }
 }

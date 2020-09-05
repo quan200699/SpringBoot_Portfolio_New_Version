@@ -1,7 +1,9 @@
 package com.codegym.portfolio.controller;
 
 import com.codegym.portfolio.model.entity.Category;
+import com.codegym.portfolio.model.entity.Skill;
 import com.codegym.portfolio.service.category.ICategoryService;
+import com.codegym.portfolio.service.skill.ISkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
+    @Autowired
+    private ISkillService skillService;
 
     @GetMapping
     public ResponseEntity<Iterable<Category>> getAllCategory() {
@@ -59,5 +63,14 @@ public class CategoryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(category, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/skills")
+    public ResponseEntity<Iterable<Skill>> findAllSkillByCategory(@PathVariable Long id) {
+        Optional<Category> categoryOptional = categoryService.findById(id);
+        return categoryOptional.map(category -> {
+            Iterable<Skill> skills = skillService.findAllByCategory(category);
+            return new ResponseEntity<>(skills, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
