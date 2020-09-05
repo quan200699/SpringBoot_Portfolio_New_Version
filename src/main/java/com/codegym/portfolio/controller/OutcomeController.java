@@ -1,6 +1,8 @@
 package com.codegym.portfolio.controller;
 
+import com.codegym.portfolio.model.entity.Category;
 import com.codegym.portfolio.model.entity.Outcome;
+import com.codegym.portfolio.service.category.ICategoryService;
 import com.codegym.portfolio.service.outcome.IOutcomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ import java.util.Optional;
 public class OutcomeController {
     @Autowired
     private IOutcomeService outcomeService;
+
+    @Autowired
+    private ICategoryService categoryService;
 
     @GetMapping
     public ResponseEntity<Iterable<Outcome>> getAllOutcome() {
@@ -58,5 +63,14 @@ public class OutcomeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(outcome, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/categories")
+    public ResponseEntity<Iterable<Category>> getAllCategoriesByOutcome(@PathVariable Long id) {
+        Optional<Outcome> outcomeOptional = outcomeService.findById(id);
+        return outcomeOptional.map(outcome -> {
+            Iterable<Category> categories = categoryService.findAllByOutcome(outcome);
+            return new ResponseEntity<>(categories, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

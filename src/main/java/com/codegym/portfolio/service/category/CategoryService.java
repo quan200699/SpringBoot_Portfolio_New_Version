@@ -1,6 +1,7 @@
 package com.codegym.portfolio.service.category;
 
 import com.codegym.portfolio.model.entity.Category;
+import com.codegym.portfolio.model.entity.Outcome;
 import com.codegym.portfolio.repository.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,10 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category findByName(String name) {
         return categoryRepository.findByName(name);
+    }
+
+    @Override
+    public Iterable<Category> findAllByOutcome(Outcome outcome) {
+        return categoryRepository.findAllByOutcome(outcome);
     }
 }
