@@ -13,4 +13,7 @@ public class Outcome {
     private Long id;
 
     private String title;
+
+    @ManyToOne
+    private Template template;
 }

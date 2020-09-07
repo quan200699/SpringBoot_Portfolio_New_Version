@@ -25,8 +25,5 @@ public class Evaluations {
     private Description description;
 
     @ManyToOne
-    private Template template;
-
-    @ManyToOne
     private Student student;
 }

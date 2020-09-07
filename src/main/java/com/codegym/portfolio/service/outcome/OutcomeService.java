@@ -1,6 +1,7 @@
 package com.codegym.portfolio.service.outcome;
 
 import com.codegym.portfolio.model.entity.Outcome;
+import com.codegym.portfolio.model.entity.Template;
 import com.codegym.portfolio.repository.IOutcomeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,10 @@ public class OutcomeService implements IOutcomeService {
     @Override
     public Outcome findByTitle(String title) {
         return outcomeRepository.findByTitle(title);
+    }
+
+    @Override
+    public Iterable<Outcome> findAllByTemplate(Template template) {
+        return outcomeRepository.findAllByTemplate(template);
     }
 }
