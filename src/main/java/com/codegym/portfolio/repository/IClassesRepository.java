@@ -7,7 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IClassesRepository extends JpaRepository<Classes, Long> {
-    @Query(value = "select * from `portfolio-management`.classes order by id asc",
-            nativeQuery = true)
-    Iterable<Classes> findAllAndSort();
 }
