@@ -1,6 +1,8 @@
 package com.codegym.portfolio.controller;
 
+import com.codegym.portfolio.model.entity.Outcome;
 import com.codegym.portfolio.model.entity.Template;
+import com.codegym.portfolio.service.outcome.IOutcomeService;
 import com.codegym.portfolio.service.template.ITemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ import java.util.Optional;
 public class TemplateController {
     @Autowired
     private ITemplateService templateService;
+
+    @Autowired
+    private IOutcomeService outcomeService;
 
     @GetMapping
     public ResponseEntity<Iterable<Template>> getAllTemplate() {
@@ -48,6 +53,15 @@ public class TemplateController {
         return templateOptional.map(template -> {
             templateService.remove(id);
             return new ResponseEntity<>(template, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/{id}/outcomes")
+    public ResponseEntity<Iterable<Outcome>> getAllOutcomeByTemplate(@PathVariable Long id) {
+        Optional<Template> templateOptional = templateService.findById(id);
+        return templateOptional.map(template -> {
+            Iterable<Outcome> outcomes = outcomeService.findAllByTemplate(template);
+            return new ResponseEntity<>(outcomes, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
